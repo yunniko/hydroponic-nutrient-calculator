@@ -58,13 +58,31 @@ conventions in `E:\CLAUDE\COMPANY\GOALS.md`.
       `HANDOVER.md` D4 and `docs/domain-reference.md`. ✔ 2026-09-11.
 - [ ] M2 — Ship: git init, security review, push via `init-repo.ps1`,
       deploy via `deploy-service.ps1`, verify live, update hub page and
-      sitemap index.
+      sitemap index. **Partially done 2026-09-11**: git init/commit/push
+      and the container build/start succeeded; blocked on a host-level
+      nginx config limit (PENDING APPROVAL, see progress log and
+      `HANDOVER.md` D5) before the vhost/TLS/live-verify/hub-page steps
+      can complete.
 - [ ] M3 — Monetization once an ad account exists for this domain (already
       wired via the shared `ADSENSE_PUBLISHER_ID` env var, awaiting
       AdSense's own per-domain approval, same as every other svc-lab
       service).
 
 **Progress log** (newest first):
+- 2026-09-11 — Resumed from the prior run's session-budget stop. Full
+  suite independently re-verified fresh (ESLint, build, 22 unit tests, 9
+  e2e tests, all passing), manual-equivalent security review clean, git
+  init + commit + push via `init-repo.ps1` all succeeded
+  (https://github.com/yunniko/hydroponic-nutrient-calculator). Deploy via
+  `deploy-service.ps1` got as far as building and starting the container
+  (port 30190, locally verified responding) but failed at the nginx vhost
+  step: `nginx -t` fails host-wide with "could not build server_names_hash,
+  you should increase server_names_hash_bucket_size: 64" — a root-owned
+  host config limit the growing portfolio has outgrown, not a bug in this
+  project. No other site was disrupted (nginx never reloaded with the
+  broken config; independently confirmed via curl). **PENDING APPROVAL:
+  logged in svc-lab/GOALS.md** with the exact fix — this service stays
+  unshipped (not live) until the Owner applies it. See `HANDOVER.md` D5.
 - 2026-09-11 — M1 and M1b complete this run (svc-lab daily automation).
   Domain-expert review found real, serious issues (2 critical, 5 high) —
   not a rubber stamp: a baseline-correction dosing tool that could
